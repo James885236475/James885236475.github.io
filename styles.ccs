@@ -1,0 +1,25 @@
+  /* portfolio styles */
+         .content h1 {
+             color: green;
+         }
+
+         #portfolio {
+             list-style-type: none;
+             padding-left: 0;
+         }
+
+         #portfolio li {
+             background: #rgdf;
+             padding: 10px;
+             border-radius: 10px;
+             margin-bottom: 10px;
+         }
+
+         #portfolio li:hover {
+             background: #thetydf;
+         }
+
+         #portfolio a {
+             text-decoration: none;
+             color: #4657345;
+         }
