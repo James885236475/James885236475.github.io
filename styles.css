@@ -37,7 +37,7 @@
         }
         nav a {
             text-decoration: none;
-            color: #fff700;
+            color: #f7f019;
         }
     
         /* main container area beneath menu */
@@ -73,7 +73,7 @@
         }
 
         #portfolio li:hover {
-            background: #ff0000;
+            background: #1eff01;
         }
 
         #portfolio a {
