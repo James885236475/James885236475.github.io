@@ -49,12 +49,17 @@ function init() {
 
   // make the first snakeSquare and set it as the head
   makeSnakeSquare(10, 10);
+ 
   snake.head = snake.body[0];
 
   // TODO 4b-2: initialize the apple
+ 
   makeApple();
+
   // TODO 5a: Initialize the interval
+ 
   // start update interval
+
   updateInterval = setInterval(update, 100);
 }
 
@@ -67,7 +72,9 @@ function init() {
  * collisions with the walls.
  */
 function update() {
+
   // TODO 5b: Fill in the update function's code block
+ 
   moveSnake();
 
   if (hasHitWall() || hasCollidedWithSnake()) {
@@ -99,7 +106,7 @@ function checkForNewDirection(event) {
 
   // FILL IN THE REST
 
-  //console.log(snake.head.direction);     // uncomment me!
+  console.log(snake.head.direction);     // uncomment me!
 }
 
 function moveSnake() {
@@ -130,12 +137,10 @@ function moveSnake() {
   //Before moving the head, check for a new direction from the keyboard input
   checkForNewDirection();
 
-  /* 
-  TODO 7: determine the next row and column for the snake's head
   
-  HINT: The snake's head will need to move forward 1 square based on the value
-  of snake.head.direction which may be one of "left", "right", "up", or "down"
-  */
+ // TODO 7: determine the next row and column for the snake's head
+  
+  
   if (snake.head.direction === "left") {
     snake.head.column = snake.head.column - 1;
   }else if (snake.head.direction === "right"){

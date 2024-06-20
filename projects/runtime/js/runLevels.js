@@ -16,134 +16,117 @@ var runLevels = function (window) {
     // set this to true or false depending on if you want to see hitzones
     game.setDebugMode(true);
 
-    // TODOs 5 through 11 go here
+   // TODOs 5 through 11 go here
     // BEGIN EDITING YOUR CODE HERE
-    function createSawblades(x,y){
-    var hitZoneSize = 25;
-    var damageFromObstacle = 10;
-    var sawBladeHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
-    sawBladeHitZone.x = x;
-    sawBladeHitZone.y = y;
-    game.addGameItem(sawBladeHitZone);
-    var obstacleImage = draw.bitmap("img/sawblade.png");
-    sawBladeHitZone.addChild(obstacleImage);
-    obstacleImage.x = -33;
-    obstacleImage.y = -33;
-    obstacleImage.scaleX = .065;
-    obstacleImage.scaleY = .065;
+    function createBullet(x, y) {
+      var hitZoneSize = 54;
+      var damageFromObstacle = 30;
+      var myObstacle = game.createObstacle(hitZoneSize, damageFromObstacle);
+
+      myObstacle.x = x;
+      myObstacle.y = y;
+
+      game.addGameItem(myObstacle);
+
+      var obstacleImage = draw.bitmap("img/bullet.png");
+
+      obstacleImage.x = -hitZoneSize;
+      obstacleImage.y = -hitZoneSize;
+
+      myObstacle.addChild(obstacleImage);
     }
-   
-    
-    //todo 9
+    function createSawBlade(x, y) {
+      var hitZoneSize = 25;
+      var damageFromObstacle = 10;
+      var myObstacle = game.createObstacle(hitZoneSize, damageFromObstacle);
 
-    function createEnemy (x, y) {
-    // todo 7 creates enemey
-    var enemy = game.createGameItem("enemy", 25);
-    var enemy = draw.bitmap("img/enemy.png");
-    enemy.x =- 40;
-    enemy.y =- 80;
-    enemy.scaleX= .15;
-    enemy.scaleY= .15;
-    enemy.addChild(enemy);
-    enemy.x = x;
-    enemy.y = y;
-    game.addGameItem(enemy); 
+      myObstacle.x = x;
+      myObstacle.y = y;
 
-    // todo 8
-    enemy.velocityX = -2;
-    enemy.velocityY = 0;
-    enemy.rotationalVelocity = 0;
+      game.addGameItem(myObstacle);
 
-    enemy.onPlayerCollision = function () {
-      game.changeIntegrity(-10);
+      var obstacleImage = draw.bitmap("img/sawblade.png");
+      myObstacle.addChild(obstacleImage);
+      obstacleImage.x = -hitZoneSize;
+      obstacleImage.y = -hitZoneSize;
     }
-
-    enemy.onProjectileCollision = function () {
-      game.increaseScore(200);
-      enemy.fadeOut();
+    function createEnemy(x, y) {
+      var enemy = game.createGameItem("enemy", 80);
+      var lynel = draw.bitmap("img/enemy.png");
+      enemy.x = -80;
+      enemy.y = -80;
+      enemy.addChild();
+      enemy.x = x;
+      enemy.y = y;
+      game.addGameItem(enemy);
+      enemy.velocityX = -2;
+      enemy.onPlayerCollision = function () {
+        game.changeIntegrity(-50);
+      };
+      enemy.onProjectileCollision = function () {
+        game.increaseScore(100);
+        enemy.fadeOut();
+      };
     }
-  }
+    function createReward(x, y) {
+      var reward = game.createGameItem("reward", 32);
+      var gem = draw.bitmap("img/reward.png");
+      gem.x = -32;
+      gem.y = -32;
+      reward.addChild(gem);
+      reward.x = x;
+      reward.y = y;
+      game.addGameItem(reward);
+      reward.velocityX = -2;
+      reward.rotationalVelocity = 4;
 
- 
-
-  // todo 10 - reward
-
-  function createReward (x,y) {
-     
-     var reward = game.createGameItem("chest", 25);
-     var chest = draw.bitmap("img/chest.webp");
-     chest.x =- 60;
-     chest.y =- 60;
-     chest.scaleX= .1;
-     chest.scaleY = .1;
-     reward.addChild(chest);
-     reward.x = x;
-     reward.y = y;
-     game.addGameItem(reward); 
- 
-     reward.velocityX = -2;
-     reward.velocityY = 0;
-     reward.rotationalVelocity = 0;
- 
-     reward.onPlayerCollision = function () {
-       game.changeIntegrity(20);
-     }
- 
-     reward.onProjectileCollision = function () {
-       game.increaseScore(1200);
-       reward.fadeOut();
-     }
-  }
-   
-  // todo 11 - end level marker
-
-  function createMarker (x,y) {
-     
-    var marker = game.createGameItem("flag", 25);
-    var flag = draw.bitmap("img/flag.png");
-    flag.x =- 30;
-    flag.y =- 30;
-    flag.scaleX= .1;
-    flag.scaleY= .1;
-    marker.addChild(flag);
-    marker.x = x;
-    marker.y = y;
-    game.addGameItem(marker); 
-
-    marker.velocityX = -2;
-    marker.velocityY = 0;
-    marker.rotationalVelocity = 0;
-
-    marker.onPlayerCollision = function () {
-     marker.startLevel();
+      reward.onPlayerCollision = function () {
+        game.changeIntegrity(25);
+        game.increaseScore(300);
+        reward.fadeOut();
+      };
     }
 
-    marker.onProjectileCollision = function () {
-      game.increaseScore(1200);
-      marker.startLevel();
-    }
- }
+    function createMarker(x, y) {
+      var marker = game.createGameItem("marker", 32);
+      var flag = draw.bitmap("img/flag.png");
+      flag.x = -32;
+      flag.y = -32;
+      marker.addChild(flag);
+      marker.x = x;
+      marker.y = y;
+      game.addGameItem(marker);
+      marker.velocityX = -2;
 
- 
+      marker.onPlayerCollision = function () {
+        marker.fadeOut();
+        startLevel();
+      };
+      marker.onProjectileCollision = function () {
+        marker.fadeOut();
+        startLevel();
+      };
+    }
 
     function startLevel() {
       // TODO 13 goes below here
-        var level = levelData[currentLevel];
-        var levelObject = level.gameItems;
-        
-        for (var i = 0; i < levelObjects.length; i++){
-            var current = levelObjects[i];
-            if (current.type === "sawblade"){
-              createSawblade(current.x, current.y);
-            } else if (current.type === "enemy"){
-              createEnemy(current.x, current.y);
-            }else if (current.type === "reward"){
-              createReward(current.x, current.y);
-            }else if (current.type === "marker"){
-              createMarker(current.x, current.y);
-            }
-        }
+      var level = levelData[currentLevel];
+      var levelObjects = level.gameItems;
 
+      for (var i = 0; i < levelObjects.length; i++) {
+        var object = levelObjects[i];
+        if (object.type === "sawblade") {
+          createSawBlade(object.x, object.y);
+        } else if (object.type === "bullet") {
+          createBullet(object.x, object.y);
+        } else if (object.type === "enemy") {
+          createEnemy(object.x, object.y);
+        } else if (object.type === "reward") {
+          createReward(object.x, object.y);
+        } else if (object.type === "marker") {
+          createMarker(object.x, object.y);
+        }
+      }
 
       //////////////////////////////////////////////
       // DO NOT EDIT CODE BELOW HERE
