@@ -10,29 +10,24 @@ function runProgram(){
   // Constant Variables
   var FRAME_RATE = 60;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
-
-  // magic numbers 
-  const KEY = {
-    LEFT: 37,
+  var KEY = {
     UP: 38,
     RIGHT: 39,
-    DOWN: 40
-  };
-  
+    DOWN: 40,
+    LEFT: 37
+  }
   // Game Item Objects
-  //monitors and controls x and y location and x and y speed
   var walker = {
     x: 0,
     y: 0,
     speedX: 0,
-    speedY: 0,
+    speedY: 0
   };
-
 
   // one-time setup
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
-  $(document).on('keydown', handleKeyDown);
-  $(document).on('keyup', handleKeyUp);                            // change 'eventType' to the type of event you want to handle
+  $(document).on('keydown', handleKeyDown);                           // change 'eventType' to the type of event you want to handle
+  $(document).on('keyup', handleKeyUp);                               // handle keyup events
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -43,71 +38,73 @@ function runProgram(){
   by calling this function and executing the code inside.
   */
   function newFrame() {
-    repositionGameItem();
-    wallCollision();
-    redrawGameItem();
+    repositionGameItem()
+    wallCollision()
+    redrawGameItem()
   }
   
   /* 
-  Called in response to when an arrow key is presseed.
+  Called in response to events.
   */
   function handleKeyDown(event) {
-    if (event.which === KEY.DOWN){
-      console.log("down pressed");
-      walker.speedY = 5;
-    }else if (event.which === KEY.UP){
-      console.log("up pressed");
-      walker.speedY = -5;
-    }else if (event.which === KEY.LEFT){
-      console.log("left pressed");
-      walker.speedX = -5;
-    }else if(event.which === KEY.RIGHT){
-      console.log("right pressed");
-      walker.speedX = 5;
+    switch (event.which) {
+      case KEY.LEFT:
+        walker.speedX = -5;
+        break;
+      case KEY.UP:
+        walker.speedY = -5;
+        break;
+      case KEY.RIGHT:
+        walker.speedX = 5;
+        break;
+      case KEY.DOWN:
+        walker.speedY = 5;
+        break;
     }
   }
 
-  //called in response to when a arrow key is released
   function handleKeyUp(event) {
-    if (event.which === KEY.DOWN){
-      walker.speedY = 0;
-    }else if (event.which === KEY.UP){
-      walker.speedY = 0;
-    }else if (event.which === KEY.LEFT){
-      walker.speedX = 0;
-    }else if(event.which === KEY.RIGHT){
-      walker.speedX = 0;
+    switch (event.which) {
+      case KEY.LEFT:
+      case KEY.RIGHT:
+        walker.speedX = 0;
+        break;
+      case KEY.UP:
+      case KEY.DOWN:
+        walker.speedY = 0;
+        break;
     }
   }
 
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
-
-  function repositionGameItem(){
-    walker.x += walker.speedX; // updates position along the x axis
-    walker.y += walker.speedY; // updates position along the y axis
+  function repositionGameItem() {
+    walker.x += walker.speedX;
+    walker.y += walker.speedY;
   }
 
-  function redrawGameItem(){
-    $("#walker").css("top", walker.y).css("left", walker.x); // draws the walker in a new location y pixels away from the top and x pixels away from the left
-  }
-  
-  function wallCollision(){
-    var rightWall = $("#board").width(); //finds the width of the board element and assigns it to the var
-    var bottomWall = $("#board").height(); //finds the height of the board element and assigns it to the var
+  function wallCollision() {
+    var boardWidth = $("#board").width();
+    var boardHeight = $("#board").height();
     
-    if (walker.x >= rightWall){  
-      walker.x -= walker.speedX;
-    }else if(walker.y >= bottomWall){
-      walker.y -= walker.speedY;
-    }else if(walker.x <= 0){
-      walker.x -= walker.speedX;
-    }else if(walker.y <= 0){
-      walker.y -= walker.speedY;
+    if (walker.x < 0) {
+      walker.x = 0;
+    } else if (walker.x > boardWidth - $("#walker").width()) {
+      walker.x = boardWidth - $("#walker").width();
+    }
+
+    if (walker.y < 0) {
+      walker.y = 0;
+    } else if (walker.y > boardHeight - $("#walker").height()) {
+      walker.y = boardHeight - $("#walker").height();
     }
   }
-
+  function redrawGameItem() {
+    $('#walker').css('left', walker.x);
+    $('#walker').css('top', walker.y);
+  }
+  
   function endGame() {
     // stop the interval timer
     clearInterval(interval);
