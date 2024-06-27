@@ -47,32 +47,39 @@ function runProgram(){
   Called in response to events.
   */
   function handleKeyDown(event) {
-    switch (event.which) {
-      case KEY.LEFT:
-        walker.speedX = -5;
-        break;
-      case KEY.UP:
-        walker.speedY = -5;
-        break;
-      case KEY.RIGHT:
-        walker.speedX = 5;
-        break;
-      case KEY.DOWN:
-        walker.speedY = 5;
-        break;
+    if (event.which === KEY.LEFT){
+      walker.speedX = -5
+      console.log("Left pressed");
+    }; 
+    if (event.which === KEY.UP){
+      walker.speedY = -5
+      console.log("Up pressed");
+    }
+    else if (event.which === KEY.RIGHT){
+      walker.speedX = 5
+      console.log("Right pressed");
+    }
+    else if (event.which === KEY.DOWN){
+      walker.speedY = 5
+      console.log("Down pressed");
     }
   }
-
-  function handleKeyUp(event) {
-    switch (event.which) {
-      case KEY.LEFT:
-      case KEY.RIGHT:
-        walker.speedX = 0;
-        break;
-      case KEY.UP:
-      case KEY.DOWN:
-        walker.speedY = 0;
-        break;
+  function handleKeyUp(event){
+    if (event.which === KEY.LEFT){
+      walker.speedX = walker.speedX - walker.speedX;
+      console.log("Left unpressed ");
+    }; 
+    if (event.which === KEY.UP){
+      walker.speedY = walker.speedY - walker.speedY;
+      console.log("Up unpressed" );
+    }
+    else if (event.which === KEY.RIGHT){
+      walker.speedX = walker.speedX - walker.speedX;
+      console.log("Right unpressed ");
+    }
+    else if (event.which === KEY.DOWN){
+      walker.speedY = walker.speedY - walker.speedY;
+      console.log("Down unpressed");
     }
   }
 
@@ -83,22 +90,23 @@ function runProgram(){
     walker.x += walker.speedX;
     walker.y += walker.speedY;
   }
-
-  function wallCollision() {
-    var boardWidth = $("#board").width();
-    var boardHeight = $("#board").height();
-    
-    if (walker.x < 0) {
-      walker.x = 0;
-    } else if (walker.x > boardWidth - $("#walker").width()) {
-      walker.x = boardWidth - $("#walker").width();
+ 
+  var walls = {}
+  walls.id = '#board'
+  walls.x = $("#board").width();
+ walls.y = $("#board").height();
+  function wallCollision(){
+  
+   if (walker.x >= walls.y){  
+      walker.x -= walker.speedX;
+    }else if(walker.y >= walls.x){
+      walker.y -= walker.speedY;
+    }else if(walker.x <= 0){
+      walker.x -= walker.speedX;
+    }else if(walker.y <= 0){
+      walker.y -= walker.speedY;
     }
-
-    if (walker.y < 0) {
-      walker.y = 0;
-    } else if (walker.y > boardHeight - $("#walker").height()) {
-      walker.y = boardHeight - $("#walker").height();
-    }
+  
   }
   function redrawGameItem() {
     $('#walker').css('left', walker.x);

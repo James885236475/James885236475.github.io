@@ -17,8 +17,8 @@ $(document).ready(function () {
     // startup
     //////////
     
-    // this gets the whole thing going;
-    // it creates a number of circles both in JavaScript and in the HTML of the website
+
+    
     for (var i = 0; i < maxCircles; i++){
         var newId = getId(i);
         var newCircle = makeCircle(newId);
@@ -27,7 +27,7 @@ $(document).ready(function () {
         addNewCircleElement(newCircle, newId);
     }
     
-    // this tells the program to run the update function 60 times per second
+   
     setInterval(update, 1000/60);
     
     
@@ -56,7 +56,7 @@ $(document).ready(function () {
         return circle;
     }
     
-    // this generates a random speed value
+   
     function decideSpeed(){
         return Math.random() * doubleMaxSpeed/2 - doubleMaxSpeed;
     }
@@ -83,7 +83,7 @@ $(document).ready(function () {
     // update function
     //////////////////
     
-    // this should move all of the circles
+   
     function update() {
     
         // loop over the circles array. We use the maxCircles variable instead of circles.length
@@ -95,7 +95,7 @@ $(document).ready(function () {
             // move the circle
             moveCircle(circle);
     
-            // bounce the circle, if it hits a wall
+            
             bounceCircle(circle);
     
             // redraw the circle on the screen after it moves
